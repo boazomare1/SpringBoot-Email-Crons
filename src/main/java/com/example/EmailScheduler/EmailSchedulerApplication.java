@@ -103,13 +103,22 @@ public class EmailSchedulerApplication {
             LocalDate subscriptionExpiryDate = today.plusMonths((int) monthsBeforeExpiry);
             LocalDateTime reminderDateTime = subscriptionExpiryDate.atStartOfDay();
 
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo("boazomare04@gmail.com"); // Replace with recipient's email address
-            mailMessage.setSubject("Subscription Expiry Reminder");
-            mailMessage.setText("Your subscription will expire in " + (int) monthsBeforeExpiry + " months. Please renew your subscription.");
+            // List of email addresses
+            List<String> emails = new ArrayList<>();
+            emails.add("boazomare04@gmail.com");
+            emails.add("omareboaz1@gmail.com");
+            // Add more email addresses as needed
 
-            javaMailSender.send(mailMessage);
-            System.out.println("Reminder email sent for " + (int) monthsBeforeExpiry + " months before expiry.");
+            // Iterate over each email address and send a reminder email
+            for (String email : emails) {
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setTo(email); // Set recipient's email address
+                mailMessage.setSubject("Subscription Expiry Reminder");
+                mailMessage.setText("Your subscription will expire in " + (int) monthsBeforeExpiry + " months. Please renew your subscription.");
+
+                javaMailSender.send(mailMessage);
+                System.out.println("Reminder email sent to " + email + " for " + (int) monthsBeforeExpiry + " months before expiry.");
+            }
         }
     }
 }
